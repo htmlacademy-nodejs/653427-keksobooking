@@ -1,10 +1,15 @@
+const Options = {
+  VERSION: '--version',
+  HELP: '--help'
+};
+
 const command = process.argv[2];
 
 switch (command) {
-  case '--version':
+  case Options.VERSION:
     console.log('v0.0.1');
     process.exit(0);
-  case '--help':
+  case Options.HELP:
     console.log(`Доступные команды:
 --help    — печатает этот текст;
 --version — печатает версию приложения;`);
