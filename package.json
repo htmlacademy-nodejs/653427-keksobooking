@@ -1,0 +1,24 @@
+{
+  "name": "@intenstive-nodejs/keksobooking",
+  "version": "0.0.1",
+  "description": "Node.js intensive project",
+  "main": "index.js",
+  "scripts": {
+    "test:lint": "eslint .",
+    "test": "npm run test:lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arseniy-nikitochkin/653427-keksobooking.git"
+  },
+  "author": "Arseniy Nikitochkin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arseniy-nikitochkin/653427-keksobooking/issues"
+  },
+  "homepage": "https://github.com/arseniy-nikitochkin/653427-keksobooking#readme",
+  "devDependencies": {
+    "eslint": "5.6.1",
+    "eslint-config-htmlacademy": "0.5.2"
+  }
+}
