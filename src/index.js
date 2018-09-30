@@ -1,21 +1,40 @@
 'use strict';
 
+const version = require(`./version`);
+const help = require(`./help`);
+const author = require(`./author`);
+const license = require(`./license`);
+const description = require(`./description`);
+
 const Options = {
   VERSION: `--version`,
-  HELP: `--help`
+  HELP: `--help`,
+  AUTHOR: `--author`,
+  LICENSE: `--license`,
+  DESCRIPTION: `--description`
 };
 
 const command = process.argv[2];
 
 switch (command) {
   case Options.VERSION:
-    console.log(`v0.0.1`);
+    version.execute();
     process.exit(0);
     break;
   case Options.HELP:
-    console.log(`Доступные команды:
---help    — печатает этот текст;
---version — печатает версию приложения;`);
+    help.execute();
+    process.exit(0);
+    break;
+  case Options.AUTHOR:
+    author.execute();
+    process.exit(0);
+    break;
+  case Options.DESCRIPTION:
+    description.execute();
+    process.exit(0);
+    break;
+  case Options.LICENSE:
+    license.execute();
     process.exit(0);
     break;
   case undefined:
