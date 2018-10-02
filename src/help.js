@@ -1,5 +1,7 @@
 'use strict';
 
+require(`colors`);
+
 const version = require(`./version`);
 const author = require(`./author`);
 const license = require(`./license`);
@@ -12,7 +14,7 @@ module.exports = {
   description: `Показывает доступные команды`,
   execute() {
     console.log(`Доступные команды:
---help    — печатает этот текст;
-${optionModules.map((module) => `--${module.name}  -${module.description}`).join(`\n`)}`);
-  }
+--${`help`.grey}    — ${`печатает этот текст`.green}
+${optionModules.map((module) => `--${module.name.grey} — ${module.description.green}`).join(`\n`)}`);
+  },
 };
