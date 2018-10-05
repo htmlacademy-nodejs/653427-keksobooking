@@ -3,6 +3,9 @@
 const assert = require(`assert`);
 const {generateEntity, TITLES, TYPES, CHECK_TIME, FEATURES, PHOTOS, WEEK_MS} = require(`../src/generator/entity-generator`);
 
+const isUnique = ((element, index, array) => array.indexOf(element) !== index);
+const isIncluded = (array) => (value) => array.includes(value);
+
 describe(`Generated entity`, () => {
   const entity = generateEntity();
   const {author, offer, location, date} = entity;
@@ -49,7 +52,7 @@ describe(`Generated entity`, () => {
       assert(CHECK_TIME.includes(offer.checkout));
     });
     it(`features should be array of unique predefined strings`, () => {
-      assert(!offer.features.some((feature, index) => offer.features.indexOf(feature) !== index) && offer.features.every((value) => FEATURES.includes(value)));
+      assert(!offer.features.some(isUnique) && offer.features.every(isIncluded(FEATURES)));
     });
     it(`description should be empty string`, () => {
       assert.equal(offer.description, ``);
