@@ -5,6 +5,7 @@ const {generateEntity, TITLES, TYPES, CHECK_TIME, FEATURES, PHOTOS, WEEK_MS} = r
 
 const isUnique = ((element, index, array) => array.indexOf(element) !== index);
 const isIncluded = (array) => (value) => array.includes(value);
+const isBetween = (value, min, max) => value >= min && value <= max;
 
 describe(`Generated entity`, () => {
   const entity = generateEntity();
@@ -34,13 +35,13 @@ describe(`Generated entity`, () => {
       assert.equal(offer.address, `${location.x}, ${location.y}`);
     });
     it(`price should be from 1000 to 1000000`, () => {
-      assert(offer.price >= 1000 && offer.price <= 1000000);
+      assert(isBetween(offer.price, 1000, 1000000));
     });
     it(`type should be predefined string`, () => {
       assert(TYPES.includes(offer.type));
     });
     it(`rooms should be from 1 to 5`, () => {
-      assert(offer.rooms >= 1 && offer.rooms <= 5);
+      assert(isBetween(offer.rooms, 1, 5));
     });
     it(`guests should be number`, () => {
       assert.equal(typeof offer.guests, `number`);
@@ -67,10 +68,10 @@ describe(`Generated entity`, () => {
       assert.equal(typeof location, `object`);
     });
     it(`x should be from 300 to 900`, () => {
-      assert(location.x >= 300 && location.x <= 900);
+      assert(isBetween(location.x, 300, 900));
     });
     it(`y should be from 150 to 500`, () => {
-      assert(location.y >= 150 && location.y <= 500);
+      assert(isBetween(location.y, 150, 500));
     });
   });
 

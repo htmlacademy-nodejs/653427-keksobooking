@@ -44,6 +44,18 @@ const generateEntity = () => {
   const getRandomString = () => Math.random().toString(36).substring(7);
   const getRandomUnixDate = () => Math.floor((Date.now() - getRandomInt(0, WEEK_MS)) / 1000);
 
+  const shuffleArray = (array) => {
+    let j;
+    let temp;
+    for (let i = array.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      temp = array[j];
+      array[j] = array[i];
+      array[i] = temp;
+    }
+    return array;
+  };
+
   function* featuresGenerator(...features) {
     const randomLength = getRandomInt(1, features.length);
     for (let i = 0; i < randomLength; i++) {
@@ -72,7 +84,7 @@ const generateEntity = () => {
       checkout: getRandomFromArray(CHECK_TIME),
       features: [...featuresGenerator(...FEATURES)],
       description: ``,
-      photos: PHOTOS.sort(() => Math.random() - 0.5)
+      photos: shuffleArray(PHOTOS)
     },
     location,
     date: getRandomUnixDate()
