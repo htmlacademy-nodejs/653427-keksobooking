@@ -3,6 +3,7 @@
 const generate = require(`./src/generate`);
 
 const optionModules = [
+  require(`./src/server`),
   require(`./src/version`),
   require(`./src/help`),
   require(`./src/author`),
@@ -11,6 +12,7 @@ const optionModules = [
 ];
 
 const command = process.argv[2];
+const params = process.argv.slice(3);
 
 if (!command) {
   generate.execute()
@@ -24,8 +26,10 @@ if (command) {
   const commandModule = optionModules.find((module) => command === `--${module.name}`);
 
   if (commandModule) {
-    commandModule.execute();
-    process.exit(0);
+    const awaiting = commandModule.execute(params);
+    if (!awaiting) {
+      process.exit(0);
+    }
   } else {
     console.error(`Неизвестная команда ${command}.
 Чтобы прочитать правила использования приложения, наберите "--help"`);
