@@ -80,7 +80,6 @@ describe(`GET /api/offers/:date`, () => {
     get(`/api/offers/1`).
     set(`Accept`, `application/json`).
     expect(404).
-    expect(`Предложение от 01.01.1970, 3:00:00 не найдено`).
     expect(`Content-Type`, /html/);
   });
 });
