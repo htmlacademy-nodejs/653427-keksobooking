@@ -4,7 +4,7 @@ const fs = require(`fs`);
 const readline = require(`readline`);
 const {promisify} = require(`util`);
 
-const {generateEntity} = require(`./generator/entity-generator`);
+const {generateOffers} = require(`./generator/offers-generator`);
 
 const fileWriteOptions = {encoding: `utf-8`, mode: 0o644};
 
@@ -53,13 +53,7 @@ const rewriteQuestion = (params) => ask(`Такой файл уже сущест
 });
 
 const saveFile = (path, quantity) => {
-  const entities = [];
-
-  for (let i = 0; i < quantity; i++) {
-    entities.push(generateEntity());
-  }
-
-  return writeFile(path, JSON.stringify(entities), fileWriteOptions).then((err) => {
+  return writeFile(path, JSON.stringify(generateOffers(quantity)), fileWriteOptions).then((err) => {
     if (err) {
       return Promise.reject(err);
     }

@@ -1,14 +1,14 @@
 'use strict';
 
 const assert = require(`assert`);
-const {generateEntity, TITLES, TYPES, CHECK_TIME, FEATURES, PHOTOS, WEEK_MS} = require(`../src/generator/entity-generator`);
+const {generateOffer, TITLES, TYPES, CHECK_TIME, FEATURES, PHOTOS, WEEK_MS} = require(`../src/generator/offers-generator`);
 
 const isUnique = ((element, index, array) => array.indexOf(element) !== index);
 const isIncluded = (array) => (value) => array.includes(value);
 const isBetween = (value, min, max) => value >= min && value <= max;
 
 describe(`Generated entity`, () => {
-  const entity = generateEntity();
+  const entity = generateOffer();
   const {author, offer, location, date} = entity;
 
   it(`Should be object`, () => {
@@ -77,7 +77,7 @@ describe(`Generated entity`, () => {
 
   describe(`entity.date`, () => {
     it(`Should be UNIX Timestamp`, () => {
-      assert(new Date() - new Date(date * 1000) <= WEEK_MS);
+      assert(new Date() - new Date(date) <= WEEK_MS);
     });
   });
 });
