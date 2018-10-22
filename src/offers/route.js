@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require(`express`);
+const multer = require(`multer`);
 // eslint-disable-next-line new-cap
 const offersRouter = express.Router();
 const {generateOffers} = require(`../generator/offers-generator`);
@@ -9,6 +10,8 @@ const NotFoundError = require(`../error/not-found-error`);
 const {isValidDate} = require(`../utils/validation`);
 
 const offers = generateOffers();
+const upload = multer({storage: multer.memoryStorage()});
+const jsonParser = express.json();
 
 offersRouter.get(``, (req, res) => {
   const {query: {skip = 0, limit = 20}} = req;
@@ -30,6 +33,13 @@ offersRouter.get(`/:date`, (req, res) => {
 
   res.send(found);
 });
+
+offersRouter.post(``, jsonParser, upload.none(), (req, res) => {
+  const body = req.body;
+
+  res.send(body);
+});
+
 
 module.exports = {
   offersRouter,
