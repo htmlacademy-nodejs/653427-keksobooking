@@ -20,9 +20,7 @@ if (!command) {
       console.log(`Error`, error);
       process.exit(1);
     });
-}
-
-if (command) {
+} else {
   const commandModule = optionModules.find((module) => command === `--${module.name}`);
 
   if (commandModule) {

@@ -8,6 +8,8 @@ const {generateOffers} = require(`../generator/offers-generator`);
 const IllegalArgumentError = require(`../error/illegal-argument-error`);
 const NotFoundError = require(`../error/not-found-error`);
 const {isValidDate} = require(`../utils/validation`);
+const ValidationError = require(`../error/validation-error`);
+const validate = require(`./validate`);
 
 const offers = generateOffers();
 const upload = multer({storage: multer.memoryStorage()});
@@ -34,12 +36,35 @@ offersRouter.get(`/:date`, (req, res) => {
   res.send(found);
 });
 
-offersRouter.post(``, jsonParser, upload.none(), (req, res) => {
-  const body = req.body;
+offersRouter.post(``, jsonParser, upload.fields([{name: `avatar`, maxCount: 1}, {name: `preview`, maxCount: 1}]), (req, res) => {
+  const {body, files} = req;
+  const {features} = body;
 
-  res.send(body);
+  if (files) {
+    const {avatar, preview} = files;
+
+    if (avatar) {
+      body.avatar = avatar[0];
+    }
+
+    if (preview) {
+      body.preview = preview[0];
+    }
+  }
+
+  if (features && !Array.isArray(features)) {
+    body.features = [features];
+  }
+
+  res.send(validate(body));
 });
 
+offersRouter.use((err, req, res, _next) => {
+  if (err instanceof ValidationError) {
+    res.status(err.code).json(err.errors);
+  }
+  res.status(err.code).send(err.message);
+});
 
 module.exports = {
   offersRouter,
