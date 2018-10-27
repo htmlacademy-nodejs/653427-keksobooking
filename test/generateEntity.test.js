@@ -1,9 +1,10 @@
 'use strict';
 
 const assert = require(`assert`);
-const {generateOffer, TITLES, TYPES, CHECK_TIME, FEATURES, PHOTOS, WEEK_MS} = require(`../src/generator/offers-generator`);
+const {generateOffer} = require(`../src/generator/offers-generator`);
+const {TITLES, TYPES, CHECK_TIME, FEATURES, PHOTOS, WEEK_MS} = require(`../src/data/values`);
 
-const isUnique = ((element, index, array) => array.indexOf(element) !== index);
+const isRepeating = ((element, index, array) => array.indexOf(element) !== index);
 const isIncluded = (array) => (value) => array.includes(value);
 const isBetween = (value, min, max) => value >= min && value <= max;
 
@@ -53,7 +54,7 @@ describe(`Generated entity`, () => {
       assert(CHECK_TIME.includes(offer.checkout));
     });
     it(`features should be array of unique predefined strings`, () => {
-      assert(!offer.features.some(isUnique) && offer.features.every(isIncluded(FEATURES)));
+      assert(!offer.features.some(isRepeating) && offer.features.every(isIncluded(FEATURES)));
     });
     it(`description should be empty string`, () => {
       assert.equal(offer.description, ``);
