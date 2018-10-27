@@ -1,7 +1,7 @@
 'use strict';
 
 const {postOfferScheme} = require(`./validation-scheme`);
-const {parseAddress} = require(`../utils/validation`);
+const {parseAddress, required} = require(`../utils/validation`);
 const {getRandomFromArray} = require(`../utils/generation`);
 const {NAMES} = require(`../data/values`);
 
@@ -12,7 +12,7 @@ const transformData = (data) => Object.assign({}, data, {
 });
 
 const validateField = (name, value, patterns) => {
-  if (!value && !patterns.find((pattern) => pattern.name === `required`)) {
+  if (!value && !patterns.find((pattern) => pattern === required)) {
     return [];
   }
 

@@ -62,8 +62,9 @@ offersRouter.post(``, jsonParser, upload.fields([{name: `avatar`, maxCount: 1}, 
 offersRouter.use((err, req, res, _next) => {
   if (err instanceof ValidationError) {
     res.status(err.code).json(err.errors);
+  } else {
+    res.status(err.code).send(err.message);
   }
-  res.status(err.code).send(err.message);
 });
 
 module.exports = {

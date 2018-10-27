@@ -24,17 +24,7 @@ describe(`POST /api/offers`, () => {
   it(`send correct offer with avatar as multipart/form-data`, async () => {
     const response = await request(app).
     post(`/api/offers`).
-    field(`name`, testOffer.name).
-    field(`title`, testOffer.title).
-    field(`address`, testOffer.address).
-    field(`description`, testOffer.description).
-    field(`price`, testOffer.price).
-    field(`type`, testOffer.type).
-    field(`rooms`, testOffer.rooms).
-    field(`guests`, testOffer.guests).
-    field(`checkin`, testOffer.checkin).
-    field(`checkout`, testOffer.checkout).
-    field(`features`, testOffer.features).
+    field(testOffer).
     attach(`avatar`, `test/fixtures/keks.png`).
     attach(`preview`, `test/fixtures/keks.png`).
     set(`Accept`, `application/json`).
