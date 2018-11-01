@@ -26,11 +26,15 @@ const postOfferScheme = {
   checkout: [required, isString, isHHmm],
   rooms: [required, isNumber, isBetween(0, 1000)],
   features: [uniqueValuesArray, allValuesIncluded(FEATURES)],
-  avatar: [isImage],
-  preview: [isImage],
   name: [isString]
 };
 
+const filesScheme = {
+  avatar: [isImage],
+  preview: [isImage]
+};
+
 module.exports = {
-  postOfferScheme
+  postOfferScheme,
+  filesScheme
 };

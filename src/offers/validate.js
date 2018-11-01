@@ -1,15 +1,29 @@
 'use strict';
 
-const {postOfferScheme} = require(`./validation-scheme`);
+const {postOfferScheme, filesScheme} = require(`./validation-scheme`);
 const {parseAddress, required} = require(`../utils/validation`);
 const {getRandomFromArray} = require(`../utils/generation`);
 const {NAMES} = require(`../data/values`);
 
 const ValidationError = require(`../error/validation-error`);
 
-const transformData = (data) => Object.assign({}, data, {
-  address: parseAddress(data.address), name: data.name || getRandomFromArray(NAMES)
-});
+const transformData = (data, files) => {
+  const date = Date.now();
+
+  return Object.assign({}, data, {
+    address: parseAddress(data.address),
+    author: {
+      name: data.name || getRandomFromArray(NAMES),
+      avatar: files && files.avatar ? `api/offers/${date}/avatar` : null
+    },
+    photos: files && files.preview ? [`api/offers/${date}/preview`] : null,
+    date
+  });
+};
+
+const validateByScheme = (data, scheme) => Object.keys(scheme).reduce(
+    (errors, key) => errors.concat(validateField(key, data[key], scheme[key])), []
+);
 
 const validateField = (name, value, patterns) => {
   if (!value && !patterns.find((pattern) => pattern === required)) {
@@ -26,16 +40,19 @@ const validateField = (name, value, patterns) => {
       }, []);
 };
 
-const validate = (data) => {
-  const validationErrors = Object.keys(postOfferScheme).reduce(
-      (errors, key) => errors.concat(validateField(key, data[key], postOfferScheme[key])), []
-  );
+const validate = (data, files) => {
+  let validationErrors = validateByScheme(data, postOfferScheme);
+
+  if (files) {
+    const fileValidationErrors = validateByScheme(files, filesScheme);
+    validationErrors = validationErrors.concat(fileValidationErrors);
+  }
 
   if (validationErrors.length > 0) {
     throw new ValidationError(validationErrors);
   }
 
-  return transformData(data);
+  return transformData(data, files);
 };
 
 module.exports = validate;

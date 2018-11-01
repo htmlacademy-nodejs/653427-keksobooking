@@ -2,10 +2,19 @@
 
 const request = require(`supertest`);
 const assert = require(`assert`);
+const express = require(`express`);
 
-const {offers} = require(`../src/offers/route`);
+// const {offers} = require(`../src/offers/route`);
+const offersStoreMock = require(`./mock/offers-store-mock`);
+const imagesStoreMock = require(`./mock/images-store-mock`);
+const offersRouter = require(`../src/offers/route`)(offersStoreMock, imagesStoreMock);
 
-const app = require(`../src/server`).app;
+const {NOT_FOUND_HANDLER} = require(`../src/utils/handlers`);
+
+const app = express();
+
+app.use(`/api/offers`, offersRouter);
+app.use(NOT_FOUND_HANDLER);
 
 describe(`GET /api/offers`, () => {
   it(`get all offers`, async () => {
@@ -16,7 +25,8 @@ describe(`GET /api/offers`, () => {
     expect(`Content-Type`, /json/);
 
     const allOffers = response.body;
-    assert.equal(allOffers.length, 20);
+    assert.equal(allOffers.data.length, 20);
+    assert.equal(allOffers.total, 40);
   });
 
   it(`get all offers with / at the end`, async () => {
@@ -27,9 +37,9 @@ describe(`GET /api/offers`, () => {
     expect(`Content-Type`, /json/);
 
     const allOffers = response.body;
-    assert.equal(allOffers.length, 20);
+    assert.equal(allOffers.data.length, 20);
+    assert.equal(allOffers.total, 40);
   });
-
 
   it(`get data with query params`, async () => {
     const response = await request(app).
@@ -39,8 +49,8 @@ describe(`GET /api/offers`, () => {
     expect(`Content-Type`, /json/);
 
     const allOffers = response.body;
-    assert.equal(allOffers[0].date, offers[5].date);
-    assert.equal(allOffers.length, 5);
+    assert.equal(allOffers.data.length, 5);
+    assert.equal(allOffers.total, 40);
   });
 
   it(`get data from unknown resource`, async () => {
@@ -55,7 +65,7 @@ describe(`GET /api/offers`, () => {
 
 describe(`GET /api/offers/:date`, () => {
   it(`get offer with date`, async () => {
-    const testDate = offers[0].date;
+    const testDate = (await (await offersStoreMock.getAllOffers()).toArray())[0].date;
     const response = await request(app).
     get(`/api/offers/${testDate}`).
     set(`Accept`, `application/json`).

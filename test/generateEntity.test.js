@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require(`assert`);
-const {generateOffer} = require(`../src/generator/offers-generator`);
+const {generateOffer} = require(`./generator/offers-generator`);
 const {TITLES, TYPES, CHECK_TIME, FEATURES, PHOTOS, WEEK_MS} = require(`../src/data/values`);
 
 const isRepeating = ((element, index, array) => array.indexOf(element) !== index);

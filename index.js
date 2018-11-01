@@ -1,7 +1,5 @@
 'use strict';
 
-const generate = require(`./src/generate`);
-
 const optionModules = [
   require(`./src/server`),
   require(`./src/version`),
@@ -14,13 +12,7 @@ const optionModules = [
 const command = process.argv[2];
 const params = process.argv.slice(3);
 
-if (!command) {
-  generate.execute()
-    .catch((error) => {
-      console.log(`Error`, error);
-      process.exit(1);
-    });
-} else {
+if (command) {
   const commandModule = optionModules.find((module) => command === `--${module.name}`);
 
   if (commandModule) {
@@ -33,6 +25,9 @@ if (!command) {
 Чтобы прочитать правила использования приложения, наберите "--help"`);
     process.exit(1);
   }
+} else {
+  console.log(`Программа была запущена без параметров`);
+  process.exit(1);
 }
 
 
