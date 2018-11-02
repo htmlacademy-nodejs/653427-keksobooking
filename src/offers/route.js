@@ -94,7 +94,7 @@ offersRouter.get(`/:date/avatar`, asyncMiddleware(async (req, res) => {
     throw new NotFoundError(`Предложение от ${offerDate.toLocaleString(`ru`)} не найдено`);
   }
 
-  const result = await offersRouter.imageStore.get(found._id);
+  const result = await offersRouter.imagesStore.get(found._id);
   if (!result) {
     throw new NotFoundError(`Аватар для предложения от ${offerDate.toLocaleString(`ru`)} не найден`);
   }
@@ -119,7 +119,7 @@ const ERROR_HANDLER = (err, req, res, _next) => {
     res.status(400).json(err.message);
     return;
   }
-  res.status(err.code || 500).send(err.message);
+  res.status(err.code || 500).send(`Внутренняя ошибка сервера`);
 };
 
 offersRouter.use(ERROR_HANDLER);
