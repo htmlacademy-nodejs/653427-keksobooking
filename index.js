@@ -1,5 +1,7 @@
 'use strict';
 
+require(`dotenv`).config();
+
 const optionModules = [
   require(`./src/server`),
   require(`./src/version`),

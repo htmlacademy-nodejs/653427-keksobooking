@@ -4,7 +4,6 @@ const request = require(`supertest`);
 const assert = require(`assert`);
 const express = require(`express`);
 
-// const {offers} = require(`../src/offers/route`);
 const offersStoreMock = require(`./mock/offers-store-mock`);
 const imagesStoreMock = require(`./mock/images-store-mock`);
 const offersRouter = require(`../src/offers/route`)(offersStoreMock, imagesStoreMock);
@@ -58,7 +57,7 @@ describe(`GET /api/offers`, () => {
     get(`/api/fadafsf`).
     set(`Accept`, `application/json`).
     expect(404).
-    expect(`Page was not found`).
+    expect(`Страница не найдена`).
     expect(`Content-Type`, /html/);
   });
 });
