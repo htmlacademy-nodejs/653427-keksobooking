@@ -4,13 +4,10 @@ const MongoError = require(`mongodb`).MongoError;
 
 const ValidationError = require(`../../error/validation-error`);
 const IllegalArgumentError = require(`../../error/illegal-argument-error`);
+const {NOT_FOUND_HANDLER} = require(`../../utils/handlers`);
 const logger = require(`../../logger`);
 
 module.exports = (offersRouter) => {
-  const NOT_FOUND_HANDLER = (req, res) => {
-    res.status(404).send(`Страница не найдена`);
-  };
-
   const ERROR_HANDLER = (err, req, res, _next) => {
     logger.error(err);
     if (err instanceof ValidationError) {
