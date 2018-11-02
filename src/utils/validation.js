@@ -17,7 +17,12 @@ const isNumber = (name, value) => !isFinite(value) ? fieldValidationError(name, 
 const isIncluded = (array) => (name, value) => !array.includes(value) ? fieldValidationError(name, `Value is not included`) : null;
 const isHHmm = (name, value) => !/^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/.test(value) ? fieldValidationError(name, `Value must be HH:mm format`) : null;
 const isBetween = (min, max) => (name, value) => value < min || value > max ? fieldValidationError(name, `Value should be between ${min} and ${max}`) : null;
-const isImage = (name, value) => !value.mimetype || value.mimetype.split(`/`)[0] !== `image` ? fieldValidationError(name, `Value is not an image`) : null;
+
+const isImage = (name, value) => {
+  const image = Array.isArray(value) ? value[0] : value;
+
+  return !image.mimetype || image.mimetype.split(`/`)[0] !== `image` ? fieldValidationError(name, `Value is not an image`) : null;
+};
 
 const uniqueValuesArray = (name, value) => {
   return !Array.isArray(value) || value.some(isRepeating) ? fieldValidationError(name, `Value must be unique values array`) : null;

@@ -1,20 +1,12 @@
 'use strict';
 const express = require(`express`);
+const offersStore = require(`./offers/store`);
+const imagesStore = require(`./images/store`);
+const {NOT_FOUND_HANDLER, ERROR_HANDLER} = require(`./utils/handlers`);
 
-const {offersRouter} = require(`./offers/route`);
+const offersRouter = require(`./offers/route`)(offersStore, imagesStore);
 
 const DEFAULT_PORT = 3000;
-
-const NOT_FOUND_HANDLER = (req, res) => {
-  res.status(404).send(`Page was not found`);
-};
-
-const ERROR_HANDLER = (err, req, res, _next) => {
-  if (err) {
-    console.error(err);
-    res.status(err.code || 500).send(err.message);
-  }
-};
 
 const app = express();
 

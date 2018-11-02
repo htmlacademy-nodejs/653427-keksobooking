@@ -2,8 +2,15 @@
 
 const request = require(`supertest`);
 const assert = require(`assert`);
+const express = require(`express`);
 
-const app = require(`../src/server`).app;
+const offersStoreMock = require(`./mock/offers-store-mock`);
+const imagesStoreMock = require(`./mock/images-store-mock`);
+const offersRouter = require(`../src/offers/route`)(offersStoreMock, imagesStoreMock);
+
+const app = express();
+
+app.use(`/api/offers`, offersRouter);
 
 const testOffer = require(`./fixtures/testOffer.js`);
 
@@ -18,7 +25,10 @@ describe(`POST /api/offers`, () => {
     expect(`Content-Type`, /json/);
 
     const offer = response.body;
-    assert.deepEqual(offer, Object.assign({}, testOffer, {address: {x: 570, y: 472}}));
+    assert.equal(offer.author.name, testOffer.name);
+    assert.equal(offer.author.avatar, null);
+    assert.equal(offer.price, testOffer.price);
+    assert.equal(typeof offer.date, `number`);
   });
 
   it(`send correct offer with avatar as multipart/form-data`, async () => {
@@ -35,8 +45,8 @@ describe(`POST /api/offers`, () => {
     const offer = response.body;
     assert.equal(offer.name, testOffer.name);
     assert.equal(offer.price, testOffer.price);
-    assert.equal(offer.avatar.mimetype, `image/png`);
-    assert.equal(offer.preview.mimetype, `image/png`);
+    assert.equal(offer.author.avatar, `api/offers/${offer.date}/avatar`);
+    assert.equal(offer.photos[0], `api/offers/${offer.date}/preview`);
   });
 
   it(`send incorrect offer as multipart/form-data`, async () => {

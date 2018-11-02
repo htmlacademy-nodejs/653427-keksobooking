@@ -6,7 +6,7 @@ const {
   CHECK_TIME,
   FEATURES,
   PHOTOS
-} = require(`../data/values`);
+} = require(`../../src/data/values`);
 
 const {
   getRandomInt,
@@ -15,7 +15,7 @@ const {
   getRandomString,
   getRandomUnixDate,
   shuffleArray
-} = require(`../utils/generation`);
+} = require(`../../src/utils/generation`);
 
 function* featuresGenerator(...features) {
   const randomLength = getRandomInt(1, features.length);
