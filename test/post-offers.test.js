@@ -26,7 +26,7 @@ describe(`POST /api/offers`, () => {
 
     const offer = response.body;
     assert.equal(offer.author.name, testOffer.name);
-    assert.equal(offer.author.avatar, null);
+    assert.equal(offer.author.avatar, ``);
     assert.equal(offer.offer.price, testOffer.price);
     assert.equal(typeof offer.date, `number`);
   });

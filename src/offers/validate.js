@@ -13,9 +13,12 @@ const transformData = (data, files) => {
   return {
     author: {
       name: data.name || getRandomFromArray(NAMES),
-      avatar: files && files.avatar ? `api/offers/${date}/avatar` : null
+      avatar: files && files.avatar ? `api/offers/${date}/avatar` : ``
     },
-    offer: data,
+    offer: Object.assign({}, data, {
+      photos: files && files.preview ? [`api/offers/${date}/preview`] : [],
+      features: data.features ? data.features : []
+    }),
     location: parseAddress(data.address),
     date
   };
