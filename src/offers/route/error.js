@@ -14,7 +14,7 @@ module.exports = (offersRouter) => {
       res.status(err.code).json(err.errors);
       return;
     } else if (err instanceof MongoError) {
-      res.status(400).json(err.message);
+      res.status(400).send(`Ошибка при работе с базой данных`);
       return;
     } else if (err instanceof IllegalArgumentError) {
       res.status(400).send(err.message);

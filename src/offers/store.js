@@ -24,8 +24,12 @@ class OffersStore {
     return (await this.collection).find();
   }
 
-  async save(offerData) {
+  async saveOffer(offerData) {
     return (await this.collection).insertOne(offerData);
+  }
+
+  async saveAllOffers(offersData) {
+    return (await this.collection).insertMany(offersData);
   }
 }
 

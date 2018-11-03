@@ -4,6 +4,7 @@ require(`colors`);
 
 const optionModules = [
   require(`./server`),
+  require(`./fill`),
   require(`./version`),
   require(`./author`),
   require(`./license`),

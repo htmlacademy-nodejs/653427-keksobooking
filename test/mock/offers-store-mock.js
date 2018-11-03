@@ -1,7 +1,7 @@
 'use strict';
 
 const Cursor = require(`./cursor-mock`);
-const offersGenerator = require(`../generator/offers-generator`);
+const offersGenerator = require(`../../src/generator/offers-generator`);
 
 class OfferStoreMock {
   constructor(data) {
@@ -16,7 +16,7 @@ class OfferStoreMock {
     return new Cursor(this.data);
   }
 
-  async save() {
+  async saveOffer() {
     return {
       insertedId: 42
     };

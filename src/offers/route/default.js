@@ -42,7 +42,7 @@ module.exports = (offersRouter) => {
     }
     const validated = validate(body, files);
 
-    const result = await offersRouter.offersStore.save(validated);
+    const result = await offersRouter.offersStore.saveOffer(validated);
     const insertedId = result.insertedId;
 
     if (files && files.avatar) {

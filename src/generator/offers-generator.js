@@ -6,7 +6,7 @@ const {
   CHECK_TIME,
   FEATURES,
   PHOTOS
-} = require(`../../src/data/values`);
+} = require(`../data/values`);
 
 const {
   getRandomInt,
@@ -15,7 +15,7 @@ const {
   getRandomString,
   getRandomUnixDate,
   shuffleArray
-} = require(`../../src/utils/generation`);
+} = require(`../utils/generation`);
 
 function* featuresGenerator(...features) {
   const randomLength = getRandomInt(1, features.length);
@@ -27,8 +27,8 @@ function* featuresGenerator(...features) {
 
 const generateOffer = () => {
   const location = {
-    x: getRandomRange(300, 900),
-    y: getRandomRange(150, 500)
+    x: Math.floor(getRandomRange(300, 900)),
+    y: Math.floor(getRandomRange(150, 500))
   };
 
   return {
@@ -38,7 +38,7 @@ const generateOffer = () => {
     offer: {
       title: getRandomFromArray(TITLES),
       address: `${location.x}, ${location.y}`,
-      price: getRandomRange(1000, 1000000),
+      price: Math.floor(getRandomRange(1000, 100000)),
       type: getRandomFromArray(TYPES),
       rooms: getRandomInt(1, 5),
       guests: getRandomInt(1, 10),
