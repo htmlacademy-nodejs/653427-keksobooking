@@ -26,8 +26,8 @@ describe(`POST /api/offers`, () => {
 
     const offer = response.body;
     assert.equal(offer.author.name, testOffer.name);
-    assert.equal(offer.author.avatar, null);
-    assert.equal(offer.price, testOffer.price);
+    assert.equal(offer.author.avatar, ``);
+    assert.equal(offer.offer.price, testOffer.price);
     assert.equal(typeof offer.date, `number`);
   });
 
@@ -43,10 +43,9 @@ describe(`POST /api/offers`, () => {
     expect(`Content-Type`, /json/);
 
     const offer = response.body;
-    assert.equal(offer.name, testOffer.name);
-    assert.equal(offer.price, testOffer.price);
+    assert.equal(offer.author.name, testOffer.name);
+    assert.equal(offer.offer.price, testOffer.price);
     assert.equal(offer.author.avatar, `api/offers/${offer.date}/avatar`);
-    assert.equal(offer.photos[0], `api/offers/${offer.date}/preview`);
   });
 
   it(`send incorrect offer as multipart/form-data`, async () => {

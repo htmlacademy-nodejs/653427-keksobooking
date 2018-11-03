@@ -1,5 +1,6 @@
 'use strict';
 
+const logger = require(`../logger`);
 const db = require(`../database/db`);
 
 const setupCollection = async () => {
@@ -23,10 +24,14 @@ class OffersStore {
     return (await this.collection).find();
   }
 
-  async save(offerData) {
+  async saveOffer(offerData) {
     return (await this.collection).insertOne(offerData);
+  }
+
+  async saveAllOffers(offersData) {
+    return (await this.collection).insertMany(offersData);
   }
 }
 
 module.exports = new OffersStore(setupCollection().
-catch((e) => console.error(`Failed to set up "offers"-collection`, e)));
+catch((e) => logger.error(`Failed to set up "offers"-collection`, e)));

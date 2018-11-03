@@ -10,15 +10,18 @@ const ValidationError = require(`../error/validation-error`);
 const transformData = (data, files) => {
   const date = Date.now();
 
-  return Object.assign({}, data, {
-    address: parseAddress(data.address),
+  return {
     author: {
       name: data.name || getRandomFromArray(NAMES),
-      avatar: files && files.avatar ? `api/offers/${date}/avatar` : null
+      avatar: files && files.avatar ? `api/offers/${date}/avatar` : ``
     },
-    photos: files && files.preview ? [`api/offers/${date}/preview`] : null,
+    offer: Object.assign({}, data, {
+      photos: files && files.preview ? [`api/offers/${date}/preview`] : [],
+      features: data.features ? data.features : []
+    }),
+    location: parseAddress(data.address),
     date
-  });
+  };
 };
 
 const validateByScheme = (data, scheme) => Object.keys(scheme).reduce(
